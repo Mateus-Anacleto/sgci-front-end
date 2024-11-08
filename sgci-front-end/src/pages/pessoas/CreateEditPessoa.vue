@@ -14,19 +14,19 @@
           <h4 class="subTitle" style="margin-top: -15px;">Dados Pessoais</h4>
           <div class="row q-gutter-lg q-mb-sm">
             <div class="col-5">
-              <q-input :rules="[val => !(val == null || val == '') || 'Campo obrigatório!']"
+              <q-input :rules="[vRequired]"
                 v-model="pessoa.nome" label="Nome" dense />
             </div>
             <div class="col-3">
-              <q-input :rules="[val => !(val == null || val == '') || 'Campo obrigatório!']"
+              <q-input :rules="[vRequired]"
                 v-model="pessoa.documento" label="Documento" dense />
             </div>
             <div class="col-3">
-              <q-input :rules="[val => !(val == null || val == '') || 'Campo obrigatório!']"
+              <q-input :rules="[vRequired]"
                 v-model="pessoa.profissao" label="Profissão" dense />
             </div>
             <div class="col-6">
-              <q-field dense label="Tipo de Pessoa" lazy-rules borderless stack-label>
+              <q-field ref="tipoPessoa" dense :model-value="pessoa.tipo" :rules="[vRequired]" label="Tipo de Pessoa" lazy-rules borderless stack-label>
                 <template v-slot:control>
                 <q-option-group
                     type="radio"
@@ -39,7 +39,7 @@
               </q-field>
             </div>
             <div class="col-5">
-              <q-field dense label="Estado Civil" lazy-rules borderless stack-label>
+              <q-field ref="pessoaEstadoCivil" dense :model-value="pessoa.estadoCivil" :rules="[vRequired]" label="Estado Civil" lazy-rules borderless stack-label>
                 <template v-slot:control>
                 <q-option-group
                     type="radio"
@@ -59,27 +59,27 @@
           <h4 class="subTitle" style="">Endereço</h4>
           <div class="row q-gutter-lg q-mb-sm">
             <div class="col-2">
-              <q-input :rules="[val => !(val == null || val == '') || 'Campo obrigatório!']"
+              <q-input :rules="[vRequired]"
                 v-model="pessoa.endereco.cep" label="CEP" dense />
             </div>
             <div class="col-4">
-              <q-input :rules="[val => !(val == null || val == '') || 'Campo obrigatório!']"
+              <q-input :rules="[vRequired]"
                 v-model="pessoa.endereco.estado" label="Estado" dense />
             </div>
             <div class="col-5">
-              <q-input :rules="[val => !(val == null || val == '') || 'Campo obrigatório!']"
+              <q-input :rules="[vRequired]"
                 v-model="pessoa.endereco.cidade" label="Cidade" dense />
             </div>
             <div class="col-7">
-              <q-input :rules="[val => !(val == null || val== '') || 'Campo obrigatório!']"
+              <q-input :rules="[vRequired]"
                 v-model="pessoa.endereco.rua" label="Rua" dense />
             </div>
             <div class="col-3">
-              <q-input :rules="[val => !(val == null || val == '') || 'Campo obrigatório!']"
+              <q-input :rules="[vRequired]"
                 v-model="pessoa.endereco.bairro" label="Bairro" dense />
             </div>
             <div class="col-1">
-              <q-input :rules="[val => !(val == null || val == '') || 'Campo obrigatório!']"
+              <q-input :rules="[vRequired]"
                 v-model="pessoa.endereco.numero" label="Número" dense />
             </div>
           </div>
@@ -151,6 +151,18 @@ export default {
           value: 'DIVORCIADO'
         }
       ]
+    }
+  },
+  watch: {
+    'pessoa.tipo': {
+      handler () {
+        this.$refs.tipoPessoa.resetValidation()
+      }
+    },
+    'pessoa.estadoCivil': {
+      handler () {
+        this.$refs.pessoaEstadoCivil.resetValidation()
+      }
     }
   },
   methods: {
