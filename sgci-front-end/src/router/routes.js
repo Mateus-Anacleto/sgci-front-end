@@ -4,6 +4,8 @@ const routes = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: 'pessoas/form', component: () => import('pages/pessoas/CreateEditPessoa.vue') },
+      { path: 'pessoas/form/:id', component: () => import('pages/pessoas/CreateEditPessoa.vue') },
+      { path: 'pessoas/view/:id', component: () => import('pages/pessoas/ViewPessoa.vue') },
       { path: '', component: () => import('pages/IndexPage.vue') }
     ]
   },

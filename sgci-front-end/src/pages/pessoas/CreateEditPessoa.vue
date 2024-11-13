@@ -1,11 +1,11 @@
 <template>
   <div>
-    <q-form greedy ref="formPessoa" @submit="cadastrar" class="bg">
+    <q-form greedy ref="formPessoa" @submit="cadastrarOuAtualizar" class="bg">
       <div class="bg"></div>
       <div class="main-container">
 
         <div class="q-mb-md">
-          <h4 class="title">Cadastrar Pessoa</h4>
+          <h4 class="title">{{ pessoa.id ? 'Editar ' : 'Cadastrar ' }} Pessoa</h4>
           <div class="divisor-inline"></div>
         </div>
 
@@ -91,7 +91,7 @@
           <div class="col-12">
             <div style="float: right">
               <q-btn push style="margin-right: 15px;" text-color="primary" label="Voltar" class="btn-voltar" />
-              <q-btn type="submit" color="primary" label="Cadastrar" class="btn-cadastrar" />
+              <q-btn type="submit" color="primary" :label="pessoa.id ? 'Salvar' : 'Cadastrar'" class="btn-cadastrar" />
             </div>
           </div>
 
@@ -165,8 +165,23 @@ export default {
       }
     }
   },
+  mounted () {
+    this.buscarPessoaParaEdicao()
+  },
   methods: {
-    cadastrar () {
+    buscarPessoaParaEdicao () {
+      if (!this.$route.params.id) return
+      pessoaService.getById(this.$route.params.id).then(retorno => {
+        this.pessoa = retorno.data
+      })
+    },
+    cadastrarOuAtualizar () {
+      if (this.pessoa.id) {
+        pessoaService.update(this.pessoa.id, this.pessoa).then(response => {
+          console.log('Pessoa editada com sucesso!')
+        })
+        return
+      }
       pessoaService.create(this.pessoa).then(response => {
         console.log('Pessoa cadastrada com sucesso!')
       })
