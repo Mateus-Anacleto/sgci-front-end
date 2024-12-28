@@ -61,8 +61,7 @@
           <!--Botões-->
           <div class="col-12">
             <div style="float: right">
-              <q-btn push style="margin-right: 15px;" text-color="primary" label="Voltar" class="btn-voltar" />
-              <!-- <q-btn type="submit" color="primary" :label="pessoa.id ? 'Salvar' : 'Cadastrar'" class="btn-cadastrar" /> -->
+              <q-btn push style="margin-right: 15px;" text-color="primary" label="Voltar" class="btn-voltar" @click="voltar"/>
             </div>
           </div>
 
@@ -115,6 +114,9 @@ export default {
     },
     formatarEstadoCivil (valor) {
       return valor === 'SOLTEIRO' ? 'Solteiro' : valor === 'CASADO' ? 'Casado' : 'Divorciado'
+    },
+    voltar () {
+      this.$router.push('/pessoas')
     }
   }
 }

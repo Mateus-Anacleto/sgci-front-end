@@ -18,6 +18,15 @@ export class PessoaService {
   getById (id) {
     return apiSgci.get(this.path + '/' + id)
   }
+
+  findAll (params, config) {
+    const finalConfig = Object.assign({ params }, config)
+    return apiSgci.get(this.path, finalConfig)
+  }
+
+  delete (id) {
+    return apiSgci.delete(this.path + '/' + id)
+  }
 }
 
 export const pessoaService = new PessoaService()

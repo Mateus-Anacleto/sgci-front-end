@@ -90,7 +90,7 @@
           <!--Botões-->
           <div class="col-12">
             <div style="float: right">
-              <q-btn push style="margin-right: 15px;" text-color="primary" label="Voltar" class="btn-voltar" />
+              <q-btn push style="margin-right: 15px;" text-color="primary" label="Voltar" class="btn-voltar" @click="voltar"/>
               <q-btn type="submit" color="primary" :label="pessoa.id ? 'Salvar' : 'Cadastrar'" class="btn-cadastrar" />
             </div>
           </div>
@@ -105,6 +105,7 @@
 <script>
 import { ref } from 'vue'
 import { pessoaService } from 'src/services/sgci-api-service.js'
+import { useQuasar } from 'quasar'
 
 export default {
   name: 'CreateEditPessoa',
@@ -125,7 +126,9 @@ export default {
         numero: null
       })
     })
+    const $q = useQuasar()
     return {
+      $q,
       pessoa,
       optionsTipoPessoa: [
         {
@@ -178,13 +181,22 @@ export default {
     cadastrarOuAtualizar () {
       if (this.pessoa.id) {
         pessoaService.update(this.pessoa.id, this.pessoa).then(response => {
-          console.log('Pessoa editada com sucesso!')
+          this.$q.notify({ message: 'Registro editado com sucesso!', color: 'positive', textColor: 'white' })
+          this.voltar()
+        }).catch(error => {
+          console.log(error)
         })
-        return
+      } else {
+        pessoaService.create(this.pessoa).then(response => {
+          console.log('Pessoa cadastrada com sucesso!')
+          this.voltar()
+        }).catch(error => {
+          console.log(error)
+        })
       }
-      pessoaService.create(this.pessoa).then(response => {
-        console.log('Pessoa cadastrada com sucesso!')
-      })
+    },
+    voltar () {
+      this.$router.push('/pessoas')
     }
   }
 }
