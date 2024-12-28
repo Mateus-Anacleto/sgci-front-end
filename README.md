@@ -14,6 +14,6 @@ Possui módulos de: Gerenciamento de pessoas (jurídica e física), gerenciament
 ## 🛠️ Linguagens e Ferramentas:
 - 📗 Vue.Js
 - 🔧 Node.Js
-- 🌐 HTML e CSS
+- 🌐 HTML, CSS e JavaScript
 - 🌌 Quasar Framework
 - 🎨 Visual Studio Code
