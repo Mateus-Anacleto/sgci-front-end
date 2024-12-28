@@ -55,6 +55,7 @@
     <div class="row">
       <div class="col-12">
         <div style="float: right; margin-top: 20px;">
+          <q-btn @click="exportar" style="margin-right: 10px; background-color: #2e8b57; color: white" label="Exportar CSV" caps class="btn-voltar" />
           <q-btn @click="cadastrar" type="submit" color="primary" label="Cadastrar Pessoa" class="btn-cadastrar"/>
         </div>
       </div>
@@ -154,6 +155,28 @@ export default {
     }
   },
   methods: {
+    exportar () {
+      pessoaService.exportar().then(result => {
+        this.downloadArquivoCsv(result.data, 'pessoas.csv')
+        this.$q.notify({ message: 'Arquivo exportado com sucesso!', color: 'positive', textColor: 'white' })
+      })
+    },
+    downloadArquivoCsv (base64, nomeArquivo) {
+      const byteCharacters = atob(base64)
+      const byteArrays = new Uint8Array(byteCharacters.length)
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteArrays[i] = byteCharacters.charCodeAt(i)
+      }
+      const blob = new Blob([byteArrays], { type: 'text/csv' })
+      const url = URL.createObjectURL(blob)
+      const link = document.createElement('a')
+
+      link.href = url
+      link.download = nomeArquivo
+      link.click()
+
+      URL.revokeObjectURL(url)
+    },
     filtroTrocado (campoNome, valor) {
       if (valor === null || valor === '') {
         delete this.filters[campoNome]
